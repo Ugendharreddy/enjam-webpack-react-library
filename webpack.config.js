@@ -8,15 +8,23 @@ module.exports = {
 
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        // library: "enjam-webpack-react-library",
+        // libraryTarget: "umd"
     },
 
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.json']
     },
 
+    devtool: 'source-map',
+
     devServer: {
         open: true
+    },
+
+    performance: {
+        hints: false
     },
 
     module: {
@@ -24,7 +32,7 @@ module.exports = {
             {
                 test: /\.(ts|js)x?$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
+                use: ["babel-loader", "ts-loader"]
             },
             {
                 test: /\.css$/,
@@ -34,7 +42,28 @@ module.exports = {
     },
 
     plugins: [
-        new HtmlWebpackPlugin({ inject: true, template: path.join(APP_PATH, 'index.html') }),
+        // new HtmlWebpackPlugin({ inject: true, template: path.join(APP_PATH, 'index.html') }),
+        new HtmlWebpackPlugin({ inject: true, template: "./src/index.html" }),
         new ForkTsCheckerWebpackPlugin(),
     ],
+
+    // externals: {
+    //     // react: "react",
+    //     react: {
+    //         commonjs: 'react',
+    //         commonjs2: 'react',
+    //         amd: 'react',
+    //         root: '_',
+    //     },
+    //     "react-dom": {
+    //         commonjs: "react-dom",
+    //         commonjs2: "react-dom",
+    //         amd: "react-dom",
+    //         root: '_',
+    //     }
+    // },
+
+    optimization: {
+        minimize: false
+    }
 }
